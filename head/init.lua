@@ -1,0 +1,35 @@
+------- VARS
+local last = {}
+-- A var to adopt player API to the game, if it works differently
+local modifier = 1
+-- A value to modify interpolation ('0' will disable)
+--local interp
+
+
+------- CONSTS
+
+local HEAD_BASE_POS = { x = 0, y = 6 + 1/3, z = 0 }
+
+------- MAIN CODE
+
+----- Blacklist MineClone-based games
+-- 1. Those games already have quite smooth animations due to small delay set
+--    for server steps.
+-- 2. MineClone quite messes around the APIs, preventing me to make it all
+--    smooth, at least as long as I don't mess too much with the animations
+--    or mcl API.
+
+if table.indexof(minetest.get_modnames(),"mcl_player") >= 0 then
+	error("MineClone 2 is not supported by coreanim_head yet.")
+else
+	minetest.register_globalstep(function(_)
+		for _, player in pairs(minetest.get_connected_players()) do
+			local name = player:get_player_name()
+			local rotation = { x = math.deg(-player:get_look_vertical())*modifier, y = 0, z = 0 }
+				local position
+				-- NOTE: Old API does not ignore `nil` values.
+				if not player.set_bone_override then position = HEAD_BASE_POS end
+				coreanim.set_bone_position(player,"Head", position, rotation)--,interp)
+		end
+	end)
+end
