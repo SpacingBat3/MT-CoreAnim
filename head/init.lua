@@ -1,3 +1,9 @@
+-- This is more or less an example usage of the API.
+--
+-- I'll probably put it in public domain later, so
+-- anyone can use this as a starting point without
+-- licensing considerations.
+
 ------- VARS
 local last = {}
 -- A var to adopt player API to the game, if it works differently
@@ -7,7 +13,7 @@ local modifier = 1
 
 
 ------- CONSTS
-
+-- Still required for the old API.
 local HEAD_BASE_POS = { x = 0, y = 6 + 1/3, z = 0 }
 
 ------- MAIN CODE
@@ -20,9 +26,9 @@ local HEAD_BASE_POS = { x = 0, y = 6 + 1/3, z = 0 }
 --    or mcl API.
 
 if table.indexof(minetest.get_modnames(),"mcl_player") >= 0 then
-	error("MineClone 2 is not supported by coreanim_head yet.")
+	warn("MineClone 2 is not supported by coreanim_head yet.")
 else
-	minetest.register_globalstep(function(_)
+	minetest.register_globalstep(function()
 		for _, player in pairs(minetest.get_connected_players()) do
 			local name = player:get_player_name()
 			local rotation = { x = math.deg(-player:get_look_vertical())*modifier, y = 0, z = 0 }
