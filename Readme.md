@@ -33,7 +33,7 @@ opinions to stabilize itself.
   it a bit and to alow to provide this as a library with backwards
   compatible syntax.
 
-- [ ] Consider, if possible, replacing the official API once the modpack is
+- [X] Consider replacing the official API once the modpack is
   activated, or find another way to make older mods use this over
   old API calls.
 
