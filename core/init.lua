@@ -9,6 +9,12 @@ local fn_detach = {};
 
 -- Helper functions
 
+local function opt_replace(obj,key,value)
+    if obj and not obj[key] then
+        obj[key] = value;
+    end
+end
+
 local function detach_call(player,name,...)
     if not fn_detach[name] then
         fn_detach[name] = player[name]
@@ -47,5 +53,22 @@ function coreanim.set_bone_position(player,bone,position,rotation,scale,interpol
         detach_call(player,"set_bone_override",bone,{ position = position, rotation = rotation })
     else
         detach_call(player,"set_bone_position",bone,position,rotation)
+    end
+end
+
+-- New syntax with partial compatibility for the old API
+function coreanim.set_bone_override(player,bone,override)
+    if override then
+        opt_replace(override.position,"interpolation",step_default)
+        opt_replace(override.rotation,"interpolation",step_default)
+        opt_replace(override.scale,"interpolation",step_default)
+    end
+    if player.set_bone_override then
+        detach_call(player,"set_bone_override",bone,override)
+    else
+        detach_call(player,"set_bone_position",bone,
+            override and override.position and override.position.vec,
+            override and override.rotation and vector.apply(override.rotation.vec,math.lab)
+        )
     end
 end
