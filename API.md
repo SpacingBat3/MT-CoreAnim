@@ -20,7 +20,7 @@ further `interpolation` arg as 0.
 ### `coreanim.set_bone_override([player, bone, override])`
 
 Basically `ObjectRef:set_bone_override`, but passes the args to
-`ObjectRef:set_bone_override` in case API is not available for any reason and
+`ObjectRef:set_bone_position` in case API is not available for any reason and
 enables interpolation by the default. It is supposed to be useful, if you don't
 want to introduce *radians → degrees → radians* conversion that happens in
 `coreanim.set_bone_position` to remain compatible with the old API syntax.

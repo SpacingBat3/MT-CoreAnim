@@ -1,7 +1,7 @@
 [![CoreAnim]](#https://github.com/SpacingBat3/MT-CoreApi)
 ---
 
-Interpolated player animation modpack, using MineTest 5.9+ API with backwards
+Interpolated animation modpack, using MineTest 5.9+ API with backwards
 compatible syntax.
 
 ## About the modpack
@@ -17,14 +17,16 @@ opinions to stabilize itself.
 
 ## Goals (and TODOs):
 
-- [X] Provide a smooth experience for player head animation.
+- [X] Provide interpolated bone-based animations for players' heads.
 
 - [X] Basic compatibility with other mods and games, by not overwritting
   other bones animations and avoiding game-specific APIs.
-  - **Note**: This means, I do not plan to implement anything that is
-    not hardly dependant on `default` and `player_api` mods, those may
-    be an optional dependencies, but should not be used for the core
-    part of the mod.
+
+> [!NOTE]
+> This means, I do not plan to implement anything that is
+> not hardly dependant on `default` and `player_api` mods, those may
+> be an optional dependencies, but should not be used for the core
+> part of the mod.
 
 - [X] Try to provide a backwards compatibility API, so bone overwrite
   mechanism is generalised and uses older API for older clients.
@@ -39,9 +41,11 @@ opinions to stabilize itself.
 
 - [ ] Avoid *game exceptions*, *rule exceptions* etc. Make code generic
   enough so it can figure out any abnormalities on its own.
-  - **Note**: The idea of this point is to make animations as much fitting
-    into other games than MTG as possible. Some stuff however may be limited,
-    due to conflicts with the game animations.
+
+> [!NOTE]
+> The idea of this point is to make animations as much fitting
+> into other games than MTG as possible. Some stuff however may be limited,
+> due to conflicts with the game animations.
 
 - [ ] Provide *monoids* API to resolve conflicts between game and mod
   animations.
