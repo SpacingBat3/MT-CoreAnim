@@ -1,8 +1,16 @@
+<div align=center>
+
 [![CoreAnim]](#https://github.com/SpacingBat3/MT-CoreApi)
 ---
 
+[![ContentDB](https://content.minetest.net/packages/SpacingBat3/coreanim/shields/downloads/)](https://content.minetest.net/packages/SpacingBat3/coreanim/)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/SpacingBat3/MT-CoreAnim?label=Code%20Size&color=%2322aa88)
+
 Interpolated animation modpack, using MineTest 5.9+ API with backwards
 compatible syntax.
+
+
+</div>
 
 ## About the modpack
 
