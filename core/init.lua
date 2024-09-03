@@ -47,9 +47,6 @@ function coreanim.set_bone_position(player,bone,position,rotation,scale,interpol
         position = bone_prop(position,interpolation)
         rotation = bone_prop(rotation,interpolation,math.rad)
         scale = bone_prop(scale,interpolation)
-        if not fn_detach.set_bone_override then
-            fn_detach.set_bone_override = player.set_bone_override
-        end
         detach_call(player,"set_bone_override",bone,{ position = position, rotation = rotation, scale = scale })
     else
         detach_call(player,"set_bone_position",bone,position,rotation)
