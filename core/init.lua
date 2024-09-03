@@ -26,6 +26,14 @@ local function detach_call(player,name,...)
     fn_detach[name](player,...)
 end
 
+local function bone_prop(prop,interp,mod)
+    return prop and {
+        vec = mod and vector.apply(prop,mod) or prop,
+        absolute = true,
+        interpolation = interp
+    }
+end
+
 -- Override the function used by coreanim
 -- TODO: Consider making this API access protected/internal for modpack
 function coreanim.wrap_fn(player,name)
@@ -36,21 +44,9 @@ end
 function coreanim.set_bone_position(player,bone,position,rotation,scale,interpolation)
     if player.set_bone_override then
         interpolation = interpolation or step_default
-        position = position and {
-        	vec = position,
-            absolute = true,
-            interpolation = interpolation
-        }
-        rotation = rotation and {
-        	vec = vector.apply(rotation,math.rad),
-            absolute = true,
-            interpolation = interpolation
-        }
-        scale = scale and {
-            vec = scale,
-            absolute = true,
-            interpolation = interpolation
-        }
+        position = bone_prop(position,interpolation)
+        rotation = bone_prop(rotation,interpolation,math.rad)
+        scale = bone_prop(scale,interpolation)
         if not fn_detach.set_bone_override then
             fn_detach.set_bone_override = player.set_bone_override
         end
