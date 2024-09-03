@@ -1,4 +1,4 @@
--- Default animation step. Works best with globalstep-interval animations.
+--- Default animation step. Works best with globalstep-interval animations.
 local step_default = tonumber(
     string.match(
         minetest.settings:get("dedicated_server_step"),
@@ -8,7 +8,7 @@ local step_default = tonumber(
 
 coreanim = {}
 
--- Use detached functions, so coreanim can be used to replace detachinal API
+--- Use detached functions, so coreanim can be used to replace detachinal API
 local fn_detach = {};
 
 -- Helper functions
@@ -34,16 +34,26 @@ local function bone_prop(prop,interp,mod)
     }
 end
 
--- Override the function used by coreanim
--- TODO: Consider making this API access protected/internal for modpack
+--- Override the function used by coreanim
+--- TODO: Consider making this API access protected/internal for modpack
+--- @param player minetest.ObjectRef
+--- @param name string
 function coreanim.wrap_fn(player,name)
     fn_detach[name] = player[name]
 end
 
--- Old-alike syntax for bone overrides, mostly compatible with old API.
+--- Old-alike syntax for bone overrides, mostly compatible with old API.
+--- @param player minetest.ObjectRef
+--- @param bone string
+--- @param position vector.Vector|nil
+--- @param rotation vector.Vector|nil
+--- @param scale vector.Vector|nil
+--- @param interpolation number|nil
 function coreanim.set_bone_position(player,bone,position,rotation,scale,interpolation)
+    -- Deterimne the action taken based on bone override API presence
     if player.set_bone_override then
         interpolation = interpolation or step_default
+        -- Transform arguments to proper syntax for the API
         position = bone_prop(position,interpolation)
         rotation = bone_prop(rotation,interpolation,math.rad)
         scale = bone_prop(scale,interpolation)
@@ -53,7 +63,11 @@ function coreanim.set_bone_position(player,bone,position,rotation,scale,interpol
     end
 end
 
--- New syntax with partial compatibility for the old API
+--- New syntax with partial compatibility for the old API
+--- and interpolation by the default
+--- @param player minetest.ObjectRef
+--- @param bone string
+--- @param override { ["position"|"rotation"|"scale"]: { vec:vector.Vector|nil, absolute: boolean|nil, interpolation:number|nil }|nil }
 function coreanim.set_bone_override(player,bone,override)
     if override then
         opt_replace(override.position,"interpolation",step_default)
