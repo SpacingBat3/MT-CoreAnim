@@ -72,7 +72,7 @@ function coreanim.set_bone_override(player,bone,override)
     else
         detach_call(player,"set_bone_position",bone,
             override and override.position and override.position.vec,
-            override and override.rotation and vector.apply(override.rotation.vec,math.lab)
+            override and override.rotation and vector.apply(override.rotation.vec,math.deg)
         )
     end
 end
