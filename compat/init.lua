@@ -1,11 +1,6 @@
 -- Whenever function has been registered
 local mod_set = false
 
--- MCL doesn't return correct tick speed via engine API,
--- and might have it configured badly.
--- Rely on better defaults.
-local TICK_SPEED = tonumber(minetest.settings:get("dedicated_server_step")) or 0.05
-
 minetest.register_on_joinplayer(function(player)
     local ObjRef = getmetatable(player)
     if not mod_set then
@@ -18,7 +13,7 @@ minetest.register_on_joinplayer(function(player)
             local bone_called = {}
             ObjRef.set_bone_position = function (player,bone,position,rotation)
                 if bone_called[bone] then
-                    coreanim.set_bone_position(player,bone,position,rotation,nil,TICK_SPEED)
+                    coreanim.set_bone_position(player,bone,position,rotation)
                 else
                     oldfn(player,bone,position,rotation)
                     bone_called[bone] = true

@@ -1,6 +1,10 @@
-local step_default = tonumber(minetest.settings:get("dedicated_server_step"))
--- Default step of the engine (API documents this as 0.1s)
-if not step_default then step_default = 0.09 end
+-- Default animation step. Works best with globalstep-interval animations.
+local step_default = tonumber(
+    string.match(
+        minetest.settings:get("dedicated_server_step"),
+        "[+-]?%d+[.]?%d*"
+    )
+) or 0.09
 
 coreanim = {}
 
