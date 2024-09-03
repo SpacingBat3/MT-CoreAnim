@@ -26,7 +26,7 @@ local HEAD_BASE_POS = { x = 0, y = 6 + 1/3, z = 0 }
 --    or mcl API.
 
 if table.indexof(minetest.get_modnames(),"mcl_player") >= 0 then
-	warn("MineClone 2 is not supported by coreanim_head yet.")
+	minetest.log("warning","MCL games are not supported by coreanim_head yet.")
 else
 	minetest.register_globalstep(function()
 		for _, player in pairs(minetest.get_connected_players()) do
