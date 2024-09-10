@@ -5,13 +5,15 @@
 --- Module table
 coreanim = {}
 
---- Default animation step. Works best with globalstep-interval animations.
-local step_default = tonumber(
-    string.match(
+--- Default animation step.
+local step_default = tonumber(minetest.settings:get("coreanim_core.step"))
+
+if not step_default or step_default < 0 then
+    step_default = tonumber(string.match(
         minetest.settings:get("dedicated_server_step"),
         "[+-]?%d+[.]?%d*"
-    )
-) or 0.09
+    )) or 0.09
+end
 
 --[[ @module "helpers" ]]
 local helpers,fn_detach = dofile(minetest.get_modpath(minetest.get_current_modname()).."/helpers.lua")

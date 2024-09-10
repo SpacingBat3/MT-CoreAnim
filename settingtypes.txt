@@ -1,0 +1,6 @@
+[Core module]
+
+# Globally override default animation step (in seconds).
+# Negative values mean coreanim should use dedicated_server_step instead.
+# Default: -1.0
+coreanim_core.step (Animation interpolation delay) float -1.0
