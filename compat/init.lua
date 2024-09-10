@@ -1,7 +1,7 @@
 local shim = minetest.settings:get_bool("coreanim_compat.shim",true)
 local flags = minetest.settings:get_flags("coreanim_compat.flags") or { set_bone_position = true }
 local workaround_mcl = minetest.settings:get_bool("coreanim_compat.fixes.mcl",true)
-local workaround_mcl = minetest.settings:get_bool("coreanim_compat.fixes.nc",true)
+local workaround_nc = minetest.settings:get_bool("coreanim_compat.fixes.nc",true)
 
 local function mod_loaded(name)
     return table.indexof(minetest.get_modnames(),name) >= 0
@@ -38,7 +38,7 @@ local function callback(player)
             ObjRef.set_bone_position = coreanim.set_bone_position
         end
     end
-    if mod_loaded("nc_player_model") and flags.set_bone_override then
+    if mod_loaded("nc_player_model") and workaround_nc then
         local oldfn = player.set_bone_override
         ObjRef.set_bone_override = function(player,bone,override)
             if bone == "Head" and override and override.rotation and override.rotation.interpolation then
