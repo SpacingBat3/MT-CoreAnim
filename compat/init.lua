@@ -7,15 +7,20 @@ local function mod_loaded(name)
     return table.indexof(minetest.get_modnames(),name) >= 0
 end
 
-local function unregister_callback(callback)
-    local i = table.indexof(minetest.registered_on_joinplayers, callback)
-    -- It is currently unsafe to remove registered callbacks,
-    -- replace them with noop function instead.
-    minetest.registered_on_joinplayers[i] = function() end
+local function unregister(list,callback,...)
+    local i = table.indexof(list, callback)
+    local fn_orig = list[#list]
+    -- It's somewhat tricky, but hooking it like that should be safe enough
+    -- as a cleanup job.
+    list[#list] = function(...)
+        table.remove(list,i)
+        list[#list] = fn_orig
+        return fn_orig(...)
+    end
 end
 
 local function callback(player)
-    unregister_callback(callback)
+    unregister(minetest.registered_on_joinplayers,callback,player)
     local ObjRef = getmetatable(player)
     local position_api = coreanim.register_fn(player,"set_bone_position")
     local override_api = coreanim.register_fn(player,"set_bone_override")
