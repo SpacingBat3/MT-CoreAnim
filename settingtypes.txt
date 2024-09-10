@@ -4,3 +4,23 @@
 # Negative values mean coreanim should use dedicated_server_step instead.
 # Default: -1.0
 coreanim_core.step (Animation interpolation delay) float -1.0
+
+[Compatibility module]
+
+# Select which APIs should always be overriden by CoreAnim: Compat mod.
+# set_bone_position: Old (deprecated) API, does not support interpolation with the engine implementation.
+# set_bone_override: New API, available since Minetest 5.9.0, already supports interpolation and probably should be left as it is unless it isn't defined.
+# Default: set_bone_position
+coreanim_compat.flags (Overridden engine APIs) flags set_bone_position set_bone_position,set_bone_override
+
+# Additionally provide APIs that are missing in the current engine version.
+# Default: true
+coreanim_compat.shim (Shim missing engine APIs) bool true
+
+[Compatibility module: Workarounds]
+
+# Workaround issues with initial bone state for MineClone/VoxeLibre games when set_bone_position is being overridden.
+coreanim_compat.fixes.mcl (MineClone/VoxeLibre: set_bone_position fixes) bool true
+
+# Workaround interpolation delay being hard-coded with the NodeCore games for players' head rotation.
+coreanim_compat.fixes.nc  (NodeCore: set_bone_override player head rotation fixes) bool true
