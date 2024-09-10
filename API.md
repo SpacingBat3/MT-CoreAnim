@@ -25,11 +25,11 @@ enables interpolation by the default. It is supposed to be useful, if you don't
 want to introduce *radians → degrees → radians* conversion that happens in
 `coreanim.set_bone_position` to remain compatible with the old API syntax.
 
-### `coreanim.wrap_fn(name,fn)`
+### `coreanim.register_fn(name,fn)`
 
-Overrides functions used by coreanim APIs for bone override and position APIs.
-This is extremely useful when integrating coreanim with mods that replace this,
-or use coreanim as a replacement to the APIs provided by the engine, so it won't
+Overrides functions used by CoreAnim APIs for bone override and position APIs.
+This is extremely useful when integrating CoreAnim with mods that replace this,
+or use CoreAnim as a replacement to the APIs provided by the engine, so it won't
 infinitely call itself over and over (unless Lua works differently than what
 I assume, I'm rather beginner at it).
 
