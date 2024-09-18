@@ -1,6 +1,5 @@
 local helpers,fn_detach = {},{}
 
-
 --- @param table table
 --- @param key string
 --- @param value unknown
@@ -10,16 +9,20 @@ function helpers.opt_replace(table,key,value)
     end
 end
 
+--- Calls original API function, stored in separate table.
 --- @param player minetest.ObjectRef
 --- @param name string
 --- @param ... unknown
 function helpers.detach_call(player,name,...)
-    if fn_detach[name] == false then
+    ::begin::
+    if fn_detach[name] then
+        fn_detach[name](player,...)
+    elseif fn_detach[name] == nil then
+        fn_detach[name] = player[name] or false
+        goto begin
+    else
         error("Unavailable engine API: "..name)
-    elseif not fn_detach[name] then
-        fn_detach[name] = player[name]
     end
-    fn_detach[name](player,...)
 end
 
 --- Converts value to `set_bone_override` subtable format.

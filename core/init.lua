@@ -27,9 +27,13 @@ local helpers,fn_detach = dofile(minetest.get_modpath(minetest.get_current_modna
 --- @param name string
 --- @return false|function
 function coreanim.register_fn(player,name)
-    -- Protection against non-engine APIs (self-reference)
+    -- Protection against non-engine APIs (this could potentially end with self-reference)
     if fn_detach[name] ~= false then
         fn_detach[name] = player[name] or false
+    end
+    -- Immediate protection against obvious self-reference
+    if fn_detach[name] == coreanim[name] then
+        error("Self-reference for API '"..name.."'detected!")
     end
     return fn_detach[name]
 end
