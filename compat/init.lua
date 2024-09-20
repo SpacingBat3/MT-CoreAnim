@@ -7,7 +7,8 @@ local function mod_loaded(name)
     return table.indexof(minetest.get_modnames(),name) >= 0
 end
 
-local function unregister(list,callback,...)
+local function unregister(api,callback)
+    local list = minetest["registered_"..api.."s"]
     local i = table.indexof(list, callback)
     local fn_orig = list[#list]
     -- It's somewhat tricky, but hooking it like that should be safe enough
@@ -20,7 +21,7 @@ local function unregister(list,callback,...)
 end
 
 local function callback(player)
-    unregister(minetest.registered_on_joinplayers,callback,player)
+    unregister("on_joinplayer",callback)
     local ObjRef = getmetatable(player)
     local position_api = coreanim.register_fn(player,"set_bone_position")
     local override_api = coreanim.register_fn(player,"set_bone_override")
@@ -46,16 +47,23 @@ local function callback(player)
     if mod_loaded("nc_player_model") and workaround_nc then
         local oldfn = player.set_bone_override
         ObjRef.set_bone_override = function(player,bone,override)
-            if bone == "Head" and override and override.rotation and override.rotation.interpolation then
-                override.rotation.interpolation = nil
+            local workaround_apply = false
+            if bone == "Head" and override then
+                if override.rotation and override.rotation.interpolation then
+                    override.rotation.interpolation = nil
+                end
+                if override.position and override.position.interpolation then
+                    override.position.interpolation = nil
+                end
+                workaround_apply = true
             end
-            if (shim and not override_api) or bone_override then
+            if (shim and not override_api) or flags.set_bone_override or workaround_apply then
                 coreanim.set_bone_override(player,bone,override)
             else
-                oldfn.set_bone_override(player,bone,override)
+                oldfn(player,bone,override)
             end
         end
-    elseif (shim and not override_api) or bone_override then
+    elseif (shim and not override_api) or flags.set_bone_override then
         ObjRef.set_bone_override = coreanim.set_bone_override
     end
 end
