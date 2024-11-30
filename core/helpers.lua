@@ -10,7 +10,7 @@ function helpers.opt_replace(table,key,value)
 end
 
 --- Calls original API function, stored in separate table.
---- @param player minetest.ObjectRef
+--- @param player core.ObjectRef
 --- @param name string
 --- @param ... unknown
 function helpers.detach_call(player,name,...)
@@ -41,7 +41,7 @@ end
 --- Determine if CoreAnim assumes given API is supported natively by the
 --- engine and whenever it wasn't overwritten by any CoreAnim-related mod
 --- later in the process.
---- @param player minetest.ObjectRef
+--- @param player core.ObjectRef
 --- @param name string
 function helpers.has_api(player,name)
     return player[name] and fn_detach[name] ~= false or false

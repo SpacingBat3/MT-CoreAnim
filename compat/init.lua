@@ -1,14 +1,14 @@
-local shim = minetest.settings:get_bool("coreanim_compat.shim",true)
-local flags = minetest.settings:get_flags("coreanim_compat.flags") or { set_bone_position = true }
-local workaround_mcl = minetest.settings:get_bool("coreanim_compat.fixes.mcl",true)
-local workaround_nc = minetest.settings:get_bool("coreanim_compat.fixes.nc",true)
+local shim = core.settings:get_bool("coreanim_compat.shim",true)
+local flags = core.settings:get_flags("coreanim_compat.flags") or { set_bone_position = true }
+local workaround_mcl = core.settings:get_bool("coreanim_compat.fixes.mcl",true)
+local workaround_nc = core.settings:get_bool("coreanim_compat.fixes.nc",true)
 
 local function mod_loaded(name)
-    return table.indexof(minetest.get_modnames(),name) >= 0
+    return table.indexof(core.get_modnames(),name) >= 0
 end
 
 local function unregister(api,callback)
-    local list = minetest["registered_"..api.."s"]
+    local list = core["registered_"..api.."s"]
     local i = table.indexof(list, callback)
     local fn_orig = list[#list]
     -- It's somewhat tricky, but hooking it like that should be safe enough
@@ -25,6 +25,7 @@ local function callback(player)
     local ObjRef = getmetatable(player)
     local position_api = coreanim.register_fn(player,"set_bone_position")
     local override_api = coreanim.register_fn(player,"set_bone_override")
+    -- Bone position API
     if (shim and not position_api) or flags.set_bone_position then
         if mod_loaded("mcl_player") and workaround_mcl then
             -- MCL games require separate replacement function, as those
@@ -44,6 +45,7 @@ local function callback(player)
             ObjRef.set_bone_position = coreanim.set_bone_position
         end
     end
+    -- Bone override API
     if mod_loaded("nc_player_model") and workaround_nc then
         local oldfn = player.set_bone_override
         ObjRef.set_bone_override = function(player,bone,override)
@@ -68,4 +70,4 @@ local function callback(player)
     end
 end
 
-minetest.register_on_joinplayer(callback)
+core.register_on_joinplayer(callback)

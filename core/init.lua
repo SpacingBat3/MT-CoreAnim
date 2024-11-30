@@ -6,24 +6,24 @@
 coreanim = {}
 
 --- Default animation step.
-local step_default = tonumber(minetest.settings:get("coreanim_core.step"))
+local step_default = tonumber(core.settings:get("coreanim_core.step"))
 
 if not step_default or step_default < 0 then
     step_default = tonumber(string.match(
-        minetest.settings:get("dedicated_server_step"),
+        core.settings:get("dedicated_server_step"),
         "[+-]?%d+[.]?%d*"
     )) or 0.09
 end
 
 --[[ @module "helpers" ]]
-local helpers,fn_detach = dofile(minetest.get_modpath(minetest.get_current_modname()).."/helpers.lua")
+local helpers,fn_detach = dofile(core.get_modpath(core.get_current_modname()).."/helpers.lua")
 
 -------------------------
 --< MODULE DEFINITION >--
 -------------------------
 
 --- Override the function used by coreanim.
---- @param player minetest.ObjectRef
+--- @param player core.ObjectRef
 --- @param name string
 --- @return false|function
 function coreanim.register_fn(player,name)
@@ -39,7 +39,7 @@ function coreanim.register_fn(player,name)
 end
 
 --- Old-alike syntax for bone overrides, mostly compatible with old API.
---- @param player minetest.ObjectRef
+--- @param player core.ObjectRef
 --- @param bone string
 --- @param position vector.Vector|nil
 --- @param rotation vector.Vector|nil
@@ -61,7 +61,7 @@ end
 
 --- New syntax with partial compatibility for the old API
 --- and interpolation by the default
---- @param player minetest.ObjectRef
+--- @param player core.ObjectRef
 --- @param bone string
 --- @param override { ["position"|"rotation"|"scale"]: { vec:vector.Vector|nil, absolute: boolean|nil, interpolation:number|nil }|nil }
 function coreanim.set_bone_override(player,bone,override)

@@ -25,11 +25,11 @@ local HEAD_BASE_POS = { x = 0, y = 6 + 1/3, z = 0 }
 --    smooth, at least as long as I don't mess too much with the animations
 --    or mcl API.
 
-if table.indexof(minetest.get_modnames(),"mcl_player") >= 0 then
-	minetest.log("warning","MCL games are not supported by coreanim_head yet.")
+if table.indexof(core.get_modnames(),"mcl_player") >= 0 then
+	core.log("warning","MCL games are not supported by coreanim_head yet.")
 else
-	minetest.register_globalstep(function()
-		for _, player in pairs(minetest.get_connected_players()) do
+	core.register_globalstep(function()
+		for _, player in pairs(core.get_connected_players()) do
 			local name = player:get_player_name()
 			local rotation = { x = math.deg(-player:get_look_vertical())*modifier, y = 0, z = 0 }
 				local position
