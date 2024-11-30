@@ -1,5 +1,9 @@
 local shim = core.settings:get_bool("coreanim_compat.shim",true)
-local flags = core.settings:get_flags("coreanim_compat.flags") or { set_bone_position = true }
+local flags_raw = ","..(core.settings:get("coreanim_compat.flags") or "set_bone_position")..",";
+local flags = {
+    set_bone_position = flags_raw:match(",set_bone_position,") and true or false;
+    set_bone_override = flags_raw:match(",set_bone_override,") and true or false;
+}
 local workaround_mcl = core.settings:get_bool("coreanim_compat.fixes.mcl",true)
 local workaround_nc = core.settings:get_bool("coreanim_compat.fixes.nc",true)
 
