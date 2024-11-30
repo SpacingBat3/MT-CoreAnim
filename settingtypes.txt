@@ -9,11 +9,12 @@ coreanim_core.step (Animation interpolation delay) float -1.0
 
 # Select which APIs should always be overriden by CoreAnim: Compat mod.
 # set_bone_position: Old (deprecated) API, does not support interpolation with the engine implementation.
-# set_bone_override: New API, available since Minetest 5.9.0, already supports interpolation and probably should be left as it is unless it isn't defined.
+# set_bone_override: New API, available for Luanti 5.9.0+, already supports interpolation and probably should be left as it is unless it isn't defined.
 # Default: set_bone_position
 coreanim_compat.flags (Overridden engine APIs) flags set_bone_position set_bone_position,set_bone_override
 
 # Additionally provide APIs that are missing in the current engine version.
+# Might be useful for older/newer mods, depending on API availability.
 # Default: true
 coreanim_compat.shim (Shim missing engine APIs) bool true
 
